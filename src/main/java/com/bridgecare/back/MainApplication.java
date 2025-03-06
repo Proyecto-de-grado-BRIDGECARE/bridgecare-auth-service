@@ -8,7 +8,7 @@ import io.github.cdimascio.dotenv.Dotenv;
 @SpringBootApplication
 public class MainApplication {
 
-	static {
+    static {
         Dotenv dotenv = Dotenv.load();
         System.setProperty("DB_URL", dotenv.get("DB_URL"));
         System.setProperty("DB_USERNAME", dotenv.get("DB_USERNAME"));
@@ -18,5 +18,4 @@ public class MainApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(MainApplication.class, args);
 	}
-
 }
