@@ -4,16 +4,16 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.bridgecare.back.models.entities.Users;
+import com.bridgecare.back.models.entities.Usuario;
 
 import java.util.Collection;
 import java.util.Collections;
 
 public class UserPrincipal implements UserDetails {
 
-    private Users user;
+    private Usuario user;
 
-    public UserPrincipal(Users user) {
+    public UserPrincipal(Usuario user) {
         this.user = user;
     }
 
@@ -23,13 +23,13 @@ public class UserPrincipal implements UserDetails {
     }
 
     @Override
-    public String getPassword() {
-        return user.getPassword();
+    public String getUsername() {
+        return user.getCorreo();
     }
 
     @Override
-    public String getUsername() {
-        return user.getUsername();
+    public String getPassword() {
+        return user.getContrasenia();
     }
 
     @Override

@@ -1,6 +1,6 @@
 package com.bridgecare.back.services;
 
-import com.bridgecare.back.models.entities.Users;
+import com.bridgecare.back.models.entities.Usuario;
 import com.bridgecare.back.repositories.UserRepository;
 import com.bridgecare.back.security.services.JWTService;
 
@@ -27,19 +27,19 @@ public class UserService {
 
     private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
 
-    public Users register(Users user) {
-        user.setPassword(encoder.encode(user.getPassword()));
+    public Usuario register(Usuario user) {
+        user.setContrasenia(encoder.encode(user.getContrasenia()));
         repo.save(user);
         return user;
     }
 
-    public Map<String, String> verify(Users user) {
+    public Map<String, String> verify(Usuario user) {
         Authentication authentication = authManager.authenticate(
-            new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword())
+            new UsernamePasswordAuthenticationToken(user.getCorreo(), user.getContrasenia())
         );
 
         if (authentication.isAuthenticated()) {
-            String token = jwtService.generateToken(user.getUsername());
+            String token = jwtService.generateToken(user.getCorreo());
             return Map.of("token", token);
         } else {
             return Map.of("error", "Authentication failed");
