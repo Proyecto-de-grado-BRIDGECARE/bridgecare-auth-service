@@ -1,11 +1,14 @@
 package com.bridgecare.back.services;
 
+import com.bridgecare.back.models.dtos.UsuarioDTO;
 import com.bridgecare.back.models.entities.Usuario;
 import com.bridgecare.back.repositories.UserRepository;
 import com.bridgecare.back.security.services.JWTService;
 
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -44,5 +47,29 @@ public class UserService {
         } else {
             return Map.of("error", "Authentication failed");
         }
+    }
+
+    public ResponseEntity<?> getUser(String authHeader) {
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid or missing token");
+        }
+
+        String token = authHeader.substring(7); // Remove "Bearer " prefix
+        String username;
+
+        try {
+            username = jwtService.extractUserName(token);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid token");
+        }
+
+        Usuario user = repo.findByCorreo(username);
+        if (user == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+        }
+
+        UsuarioDTO usuarioDTO = new UsuarioDTO(user.getId(), user.getNombres(), user.getApellidos(), user.getIdentificacion(), user.getTipo_usuario(), user.getCorreo(), user.getMunicipio());
+
+        return ResponseEntity.ok(usuarioDTO);
     }
 }
