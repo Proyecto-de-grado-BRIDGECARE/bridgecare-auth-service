@@ -1,4 +1,4 @@
-package com.bridgecare.back;
+package com.bridgecare.auth;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

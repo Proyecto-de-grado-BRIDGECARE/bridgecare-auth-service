@@ -1,4 +1,4 @@
-package com.bridgecare.back.security;
+package com.bridgecare.auth.security;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -14,7 +14,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.bridgecare.back.security.services.JWTService;
+import com.bridgecare.auth.security.services.JWTService;
 
 import java.io.IOException;
 

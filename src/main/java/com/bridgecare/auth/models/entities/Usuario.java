@@ -1,36 +1,42 @@
-package com.bridgecare.back.models.dtos;
+package com.bridgecare.auth.models.entities;
 
-public class UsuarioDTO {
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "usuario")
+public class Usuario {
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
+
+    @Column(name = "nombres")
     private String nombres;
+
+    @Column(name = "apellidos")
     private String apellidos;
+
+    @Column(name = "identificacion")
     private Long identificacion;
+
+    @Column(name = "tipo_usuario")
     private Integer tipo_usuario;
+
+    @Column(name = "correo")
     private String correo;
+
+    @Column(name = "municipio")
     private String municipio;
+
+    @Column(name = "contrasenia")
     private String contrasenia;
 
-    public UsuarioDTO(Long id, String nombres, String apellidos, Long identificacion, Integer tipo_usuario, String correo, String municipio, String contrasenia) {
-        this.id = id;
-        this.nombres = nombres;
-        this.apellidos = apellidos;
-        this.identificacion = identificacion;
-        this.tipo_usuario = tipo_usuario;
-        this.correo = correo;
-        this.municipio = municipio;
-        this.contrasenia = contrasenia;
-    }
-
-    public UsuarioDTO(Long id, String nombres, String apellidos, Long identificacion, Integer tipo_usuario, String correo, String municipio) {
-        this.id = id;
-        this.nombres = nombres;
-        this.apellidos = apellidos;
-        this.identificacion = identificacion;
-        this.tipo_usuario = tipo_usuario;
-        this.correo = correo;
-        this.municipio = municipio;
-    }
-    
     public Long getId() {
         return id;
     }
@@ -93,5 +99,17 @@ public class UsuarioDTO {
 
     public void setContrasenia(String contrasenia) {
         this.contrasenia = contrasenia;
+    }
+
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + "(" +
+                "id = " + id + ", " +
+                "nombres = " + nombres + ", " +
+                "apellidos =" + apellidos + ", " +
+                "identificacion =" + identificacion + ", " +
+                "tipo_usuario =" + tipo_usuario + ", " +
+                "correo =" + correo + ", " +
+                "municipio =" + municipio + ")";
     }
 }

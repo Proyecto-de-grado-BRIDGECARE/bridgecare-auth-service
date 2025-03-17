@@ -1,11 +1,12 @@
-package com.bridgecare.back.services;
-
-import com.bridgecare.back.models.dtos.UsuarioDTO;
-import com.bridgecare.back.models.entities.Usuario;
-import com.bridgecare.back.repositories.UserRepository;
-import com.bridgecare.back.security.services.JWTService;
+package com.bridgecare.auth.services;
 
 import org.springframework.stereotype.Service;
+
+import com.bridgecare.auth.models.dtos.UsuarioDTO;
+import com.bridgecare.auth.models.entities.Usuario;
+import com.bridgecare.auth.repositories.UserRepository;
+import com.bridgecare.auth.security.services.JWTService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

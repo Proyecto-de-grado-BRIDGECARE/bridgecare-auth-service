@@ -1,4 +1,4 @@
-package com.bridgecare.back.security;
+package com.bridgecare.auth.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -6,8 +6,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.bridgecare.back.models.entities.Usuario;
-import com.bridgecare.back.repositories.UserRepository;
+import com.bridgecare.auth.models.entities.Usuario;
+import com.bridgecare.auth.repositories.UserRepository;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {

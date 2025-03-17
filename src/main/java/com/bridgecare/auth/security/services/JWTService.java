@@ -1,4 +1,4 @@
-package com.bridgecare.back.security.services;
+package com.bridgecare.auth.security.services;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
