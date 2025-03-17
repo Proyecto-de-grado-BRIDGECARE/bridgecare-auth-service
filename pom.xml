@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.bridgecare</groupId>
-	<artifactId>back</artifactId>
+	<artifactId>auth</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>back</name>
-	<description>BridgeCare Back-End Project</description>
+	<name>auth</name>
+	<description>BridgeCare Auth Service</description>
 	<url/>
 	<licenses>
 		<license/>
@@ -47,6 +47,12 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>com.vaadin.external.google</groupId>
+					<artifactId>android-json</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
         <dependency>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
