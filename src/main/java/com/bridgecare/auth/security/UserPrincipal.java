@@ -4,7 +4,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.bridgecare.auth.models.entities.Usuario;
+import com.bridgecare.common.models.entities.Usuario;
 
 import java.util.Collection;
 import java.util.Collections;

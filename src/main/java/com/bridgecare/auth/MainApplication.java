@@ -2,10 +2,12 @@ package com.bridgecare.auth;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 import io.github.cdimascio.dotenv.Dotenv;
 
 @SpringBootApplication
+@EntityScan("com.bridgecare.common.models.entities") // Scan bridgecare-common for entities
 public class MainApplication {
 
     static {

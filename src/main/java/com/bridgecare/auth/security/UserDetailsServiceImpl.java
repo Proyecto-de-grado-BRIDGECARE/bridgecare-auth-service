@@ -6,7 +6,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.bridgecare.auth.models.entities.Usuario;
+import com.bridgecare.common.models.entities.Usuario;
 import com.bridgecare.auth.repositories.UserRepository;
 
 @Service

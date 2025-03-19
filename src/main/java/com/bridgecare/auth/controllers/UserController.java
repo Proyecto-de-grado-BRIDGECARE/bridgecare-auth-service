@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bridgecare.auth.models.entities.Usuario;
+import com.bridgecare.common.models.entities.Usuario;
 import com.bridgecare.auth.services.UserService;
 
 import org.springframework.web.bind.annotation.GetMapping;

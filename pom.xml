@@ -94,6 +94,11 @@
 			<artifactId>json</artifactId>
 			<version>20250107</version>
 		</dependency>
+		<dependency>
+			<groupId>com.bridgecare</groupId>
+			<artifactId>common</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -132,6 +137,10 @@
 			<releases>
 				<enabled>false</enabled>
 			</releases>
+		</repository>
+				<repository>
+			<id>github</id>
+			<url>https://maven.pkg.github.com/Proyecto-de-grado-BRIDGECARE/bridgecare-common</url>
 		</repository>
 	</repositories>
 	<pluginRepositories>
