@@ -2,8 +2,8 @@ package com.bridgecare.auth.services;
 
 import org.springframework.stereotype.Service;
 
-import com.bridgecare.auth.models.dtos.UsuarioDTO;
 import com.bridgecare.common.models.entities.Usuario;
+import com.bridgecare.common.models.dtos.UsuarioDTO;
 import com.bridgecare.auth.repositories.UserRepository;
 import com.bridgecare.auth.security.services.JWTService;
 
