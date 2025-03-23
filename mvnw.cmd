@@ -27,6 +27,22 @@
 @REM   MVNW_VERBOSE - true: enable verbose log; others: silence the output
 @REM ----------------------------------------------------------------------------
 
+@echo off
+REM Load .env file if it exists
+if exist .env (
+    for /f "tokens=1,2 delims==" %%i in (.env) do (
+        REM Remove leading/trailing whitespace (basic trim)
+        set "key=%%i"
+        set "value=%%j"
+        set "key=%key: =%"
+        set "value=%value: =%"
+        REM Skip empty lines or comments
+        if not "!key!"=="" if not "!key:~0,1!"=="#" set "!key!=!value!"
+    )
+) else (
+    echo Warning: .env file not found. Ensure it exists with GITHUB_USERNAME and GITHUB_TOKEN.
+)
+
 @IF "%__MVNW_ARG0_NAME__%"=="" (SET __MVNW_ARG0_NAME__=%~nx0)
 @SET __MVNW_CMD__=
 @SET __MVNW_ERROR__=
@@ -87,7 +103,7 @@ $MAVEN_HOME = "$MAVEN_HOME_PARENT/$MAVEN_HOME_NAME"
 
 if (Test-Path -Path "$MAVEN_HOME" -PathType Container) {
   Write-Verbose "found existing MAVEN_HOME at $MAVEN_HOME"
-  Write-Output "MVN_CMD=$MAVEN_HOME/bin/$MVN_CMD"
+  Write-Output "MVN_CMD=$MAVEN_HOME/bin/$MVN_CMD -s settings.xml"
   exit $?
 }
 
@@ -146,4 +162,4 @@ try {
   catch { Write-Warning "Cannot remove $TMP_DOWNLOAD_DIR" }
 }
 
-Write-Output "MVN_CMD=$MAVEN_HOME/bin/$MVN_CMD"
+Write-Output "MVN_CMD=$MAVEN_HOME/bin/$MVN_CMD -s settings.xml"
