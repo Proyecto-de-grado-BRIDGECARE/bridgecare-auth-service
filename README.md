@@ -38,21 +38,50 @@ cd bridgecare-auth-service
 Copy `.env.example` to `.env` and set the required environment variables:
 `cp .env.example .env`
 
-#### Build and run
-To build and run the service locally, use:
-```bash
-mvn clean package
-java -jar target/auth-service-0.0.1-SNAPSHOT.jar
-```
+#### Build and Run
 
-Or use Maven to run the application:
-```bash
-./mvnw spring-boot:run
+To build and run the service, ensure you have a .env file in the project root with the following:
 ```
+GITHUB_USERNAME=bridgecare-bot
+GITHUB_TOKEN=<bridgecare-bot-personal-access-token>
+```
+Copy .env.example to .env and replace `<bridgecare-bot-personal-access-token>` with a valid GitHub PAT with read:packages scope.
 
-**Or use Docker:**
+##### Local Build and Run
+Use the Maven Wrapper to build and run the application locally (works on Linux, macOS, and Windows):
+
+1. **Build the JAR:**
+   ```bash
+   ./mvnw clean package -U
+   ```
+   - On Windows, use `mvnw.cmd clean package -U` in Command Prompt.
+   - The `-U` flag ensures the latest dependencies are fetched (needed only once or after updates).
+
+2. **Run the JAR:**
+   ```bash
+   java -jar target/auth-0.0.1-SNAPSHOT.jar
+   ```
+
+3. **Or Run with Maven Wrapper:**
+   ```bash
+   ./mvnw spring-boot:run
+   ```
+   - On Windows, use `mvnw.cmd spring-boot:run`.
+
+##### Docker Build and Run
+To build and run the service in a Docker container:
+
 ```bash
 docker-compose up --build
+```
+- Ensure Docker and Docker Compose are installed.
+- This builds the image and starts the service on port 8080.
+- On Windows, run this in Command Prompt or PowerShell with Docker Desktop running.
+
+For a fresh build (e.g., after dependency updates):
+```bash
+docker-compose build --no-cache
+docker-compose up
 ```
 
 ## API Endpoints
