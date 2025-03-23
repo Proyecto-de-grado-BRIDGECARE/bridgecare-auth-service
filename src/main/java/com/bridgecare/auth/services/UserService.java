@@ -69,7 +69,7 @@ public class UserService {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
         }
 
-        UsuarioDTO usuarioDTO = new UsuarioDTO(user.getId(), user.getNombres(), user.getApellidos(), user.getIdentificacion(), user.getTipo_usuario(), user.getCorreo(), user.getMunicipio());
+        UsuarioDTO usuarioDTO = new UsuarioDTO(user.getId(), user.getNombres(), user.getApellidos(), user.getIdentificacion(), user.getTipoUsuario(), user.getCorreo(), user.getMunicipio());
 
         return ResponseEntity.ok(usuarioDTO);
     }
