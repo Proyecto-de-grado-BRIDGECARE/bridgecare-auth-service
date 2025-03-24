@@ -30,7 +30,7 @@ The **BridgeCare Auth Service** is responsible for handling authentication and a
 
 #### Clone the repository
 ```bash
-git clone https://github.com/Proyecto-de-grado-BRIDGECARE/bridgecare-auth-service
+git clone https://github.com/Proyecto-de-grado-BRIDGECARE/bridgecare-auth-service.git
 cd bridgecare-auth-service
 ```
 
@@ -52,9 +52,12 @@ Use the Maven Wrapper to build and run the application locally (works on Linux, 
 
 1. **Build the JAR:**
    ```bash
+   # Windows:
+   .\mvnw.cmd clean package -U
+
+   # Linux:
    ./mvnw clean package -U
    ```
-   - On Windows, use `mvnw.cmd clean package -U` in Command Prompt.
    - The `-U` flag ensures the latest dependencies are fetched (needed only once or after updates).
 
 2. **Run the JAR:**
@@ -64,9 +67,12 @@ Use the Maven Wrapper to build and run the application locally (works on Linux, 
 
 3. **Or Run with Maven Wrapper:**
    ```bash
+   # Windows:
+   .\mvnw.cmd spring-boot:run
+
+   # Linux:
    ./mvnw spring-boot:run
    ```
-   - On Windows, use `mvnw.cmd spring-boot:run`.
 
 ##### Docker Build and Run
 To build and run the service in a Docker container:
