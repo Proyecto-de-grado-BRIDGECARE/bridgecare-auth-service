@@ -28,36 +28,46 @@
 @REM ----------------------------------------------------------------------------
 
 @echo off
+setlocal EnableDelayedExpansion
+
 REM Load .env file if it exists
 if exist ".env" (
-    for /f "tokens=1,2 delims==" %%i in (".env") do (
-        REM Remove leading/trailing whitespace (basic trim)
-        set "key=%%i"
-        set "value=%%j"
-        for %%k in ("!key!") do set "key=%%~k"
-        for %%v in ("!value!") do set "value=%%~v"
+    echo DEBUG: Found .env file, attempting to load...
+    for /f "tokens=1,2 delims==" %%i in ('type ".env"') do (
+        echo DEBUG: Raw key=%%i, value=%%j
         REM Skip empty lines or comments
-        if not "!key!"=="" if not "!key:~0,1!"=="#" set "!key!=!value!"
+        if not "%%i"=="" if not "%%i:~0,1!"=="#" (
+            set "%%i=%%j"
+            echo DEBUG: Set %%i=%%j
+            REM Verify immediately after setting
+            echo DEBUG: Current value of %%i=!%%i!
+        )
     )
 ) else (
     echo Warning: ".env" file not found. Ensure it exists with GITHUB_USERNAME and GITHUB_TOKEN.
 )
 
 @IF "%__MVNW_ARG0_NAME__%"=="" (SET "__MVNW_ARG0_NAME__=%~nx0")
-@SET "__MVNW_CMD__="
-@SET "__MVNW_ERROR__="
+@SET "__MVNW_CMD_PATH__="
+@SET "__MVNW_CMD_ARGS__="
 @SET "__MVNW_PSMODULEP_SAVE=%PSModulePath%"
 @SET "PSModulePath="
-@FOR /F "usebackq tokens=1* delims==" %%A IN (`powershell -noprofile "& {$scriptDir='%~dp0'; $script='%__MVNW_ARG0_NAME__%'; icm -ScriptBlock ([Scriptblock]::Create((Get-Content -Raw '%~f0'))) -NoNewScope}"`) DO @(
-  IF "%%A"=="MVN_CMD" (set "__MVNW_CMD__=%%B") ELSE IF "%%B"=="" (echo %%A) ELSE (echo %%A=%%B)
+@FOR /F "usebackq tokens=1,*" %%A IN (`powershell -noprofile "& {$scriptDir='%~dp0'; $script='%__MVNW_ARG0_NAME__%'; icm -ScriptBlock ([Scriptblock]::Create((Get-Content -Raw '%~f0'))) -NoNewScope}"`) DO @(
+  IF "%%A"=="PATH" SET "__MVNW_CMD_PATH__=%%B"
+  IF "%%A"=="ARGS" SET "__MVNW_CMD_ARGS__=%%B"
 )
 @SET "PSModulePath=%__MVNW_PSMODULEP_SAVE%"
 @SET "__MVNW_PSMODULEP_SAVE="
 @SET "__MVNW_ARG0_NAME__="
 @SET "MVNW_USERNAME="
 @SET "MVNW_PASSWORD="
-@IF NOT "%__MVNW_CMD__%"=="" ("%__MVNW_CMD__%" %*)
-@echo Cannot start maven from wrapper >&2 && exit /b 1
+@IF NOT "%__MVNW_CMD_PATH__%"=="" (
+  "%__MVNW_CMD_PATH__%" %__MVNW_CMD_ARGS__% %*
+) ELSE (
+  echo Cannot start maven from wrapper >&2
+  exit /b 1
+)
+@endlocal
 @GOTO :EOF
 : end batch / begin powershell #>
 
@@ -103,9 +113,10 @@ $MAVEN_HOME = "$MAVEN_HOME_PARENT/$MAVEN_HOME_NAME"
 
 if (Test-Path -Path "$MAVEN_HOME" -PathType Container) {
   Write-Verbose "found existing MAVEN_HOME at '$MAVEN_HOME'"
-  # Replace forward slashes with backslashes for Windows compatibility
-  $mvnCmdPath = "$MAVEN_HOME\bin\$MVN_CMD -s settings.xml" -replace '/', '\'
-  Write-Output "MVN_CMD=$mvnCmdPath"
+  $mvnCmdPath = "$MAVEN_HOME\bin\$MVN_CMD" -replace '/', '\'
+  $mvnCmdArgs = "-s settings.xml"
+  Write-Output "PATH $mvnCmdPath"
+  Write-Output "ARGS $mvnCmdArgs"
   exit $?
 }
 
@@ -164,6 +175,7 @@ try {
   catch { Write-Warning "Cannot remove '$TMP_DOWNLOAD_DIR'" }
 }
 
-# Replace forward slashes with backslashes for Windows compatibility
-$mvnCmdPath = "$MAVEN_HOME\bin\$MVN_CMD -s settings.xml" -replace '/', '\'
-Write-Output "MVN_CMD=$mvnCmdPath"
+$mvnCmdPath = "$MAVEN_HOME\bin\$MVN_CMD" -replace '/', '\'
+$mvnCmdArgs = "-s settings.xml"
+Write-Output "PATH $mvnCmdPath"
+Write-Output "ARGS $mvnCmdArgs"
