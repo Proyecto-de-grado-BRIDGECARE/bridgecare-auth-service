@@ -32,15 +32,10 @@ setlocal EnableDelayedExpansion
 
 REM Load .env file if it exists
 if exist ".env" (
-    echo DEBUG: Found .env file, attempting to load...
     for /f "tokens=1,2 delims==" %%i in ('type ".env"') do (
-        echo DEBUG: Raw key=%%i, value=%%j
         REM Skip empty lines or comments
         if not "%%i"=="" if not "%%i:~0,1!"=="#" (
             set "%%i=%%j"
-            echo DEBUG: Set %%i=%%j
-            REM Verify immediately after setting
-            echo DEBUG: Current value of %%i=!%%i!
         )
     )
 ) else (
