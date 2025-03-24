@@ -29,34 +29,34 @@
 
 @echo off
 REM Load .env file if it exists
-if exist .env (
-    for /f "tokens=1,2 delims==" %%i in (.env) do (
+if exist ".env" (
+    for /f "tokens=1,2 delims==" %%i in (".env") do (
         REM Remove leading/trailing whitespace (basic trim)
         set "key=%%i"
         set "value=%%j"
-        set "key=%key: =%"
-        set "value=%value: =%"
+        for %%k in ("!key!") do set "key=%%~k"
+        for %%v in ("!value!") do set "value=%%~v"
         REM Skip empty lines or comments
         if not "!key!"=="" if not "!key:~0,1!"=="#" set "!key!=!value!"
     )
 ) else (
-    echo Warning: .env file not found. Ensure it exists with GITHUB_USERNAME and GITHUB_TOKEN.
+    echo Warning: ".env" file not found. Ensure it exists with GITHUB_USERNAME and GITHUB_TOKEN.
 )
 
-@IF "%__MVNW_ARG0_NAME__%"=="" (SET __MVNW_ARG0_NAME__=%~nx0)
-@SET __MVNW_CMD__=
-@SET __MVNW_ERROR__=
-@SET __MVNW_PSMODULEP_SAVE=%PSModulePath%
-@SET PSModulePath=
+@IF "%__MVNW_ARG0_NAME__%"=="" (SET "__MVNW_ARG0_NAME__=%~nx0")
+@SET "__MVNW_CMD__="
+@SET "__MVNW_ERROR__="
+@SET "__MVNW_PSMODULEP_SAVE=%PSModulePath%"
+@SET "PSModulePath="
 @FOR /F "usebackq tokens=1* delims==" %%A IN (`powershell -noprofile "& {$scriptDir='%~dp0'; $script='%__MVNW_ARG0_NAME__%'; icm -ScriptBlock ([Scriptblock]::Create((Get-Content -Raw '%~f0'))) -NoNewScope}"`) DO @(
-  IF "%%A"=="MVN_CMD" (set __MVNW_CMD__=%%B) ELSE IF "%%B"=="" (echo %%A) ELSE (echo %%A=%%B)
+  IF "%%A"=="MVN_CMD" (set "__MVNW_CMD__=%%B") ELSE IF "%%B"=="" (echo %%A) ELSE (echo %%A=%%B)
 )
-@SET PSModulePath=%__MVNW_PSMODULEP_SAVE%
-@SET __MVNW_PSMODULEP_SAVE=
-@SET __MVNW_ARG0_NAME__=
-@SET MVNW_USERNAME=
-@SET MVNW_PASSWORD=
-@IF NOT "%__MVNW_CMD__%"=="" (%__MVNW_CMD__% %*)
+@SET "PSModulePath=%__MVNW_PSMODULEP_SAVE%"
+@SET "__MVNW_PSMODULEP_SAVE="
+@SET "__MVNW_ARG0_NAME__="
+@SET "MVNW_USERNAME="
+@SET "MVNW_PASSWORD="
+@IF NOT "%__MVNW_CMD__%"=="" ("%__MVNW_CMD__%" %*)
 @echo Cannot start maven from wrapper >&2 && exit /b 1
 @GOTO :EOF
 : end batch / begin powershell #>
@@ -69,7 +69,7 @@ if ($env:MVNW_VERBOSE -eq "true") {
 # calculate distributionUrl, requires .mvn/wrapper/maven-wrapper.properties
 $distributionUrl = (Get-Content -Raw "$scriptDir/.mvn/wrapper/maven-wrapper.properties" | ConvertFrom-StringData).distributionUrl
 if (!$distributionUrl) {
-  Write-Error "cannot read distributionUrl property in $scriptDir/.mvn/wrapper/maven-wrapper.properties"
+  Write-Error "cannot read distributionUrl property in '$scriptDir/.mvn/wrapper/maven-wrapper.properties'"
 }
 
 switch -wildcard -casesensitive ( $($distributionUrl -replace '^.*/','') ) {
@@ -102,13 +102,13 @@ $MAVEN_HOME_NAME = ([System.Security.Cryptography.MD5]::Create().ComputeHash([by
 $MAVEN_HOME = "$MAVEN_HOME_PARENT/$MAVEN_HOME_NAME"
 
 if (Test-Path -Path "$MAVEN_HOME" -PathType Container) {
-  Write-Verbose "found existing MAVEN_HOME at $MAVEN_HOME"
+  Write-Verbose "found existing MAVEN_HOME at '$MAVEN_HOME'"
   Write-Output "MVN_CMD=$MAVEN_HOME/bin/$MVN_CMD -s settings.xml"
   exit $?
 }
 
 if (! $distributionUrlNameMain -or ($distributionUrlName -eq $distributionUrlNameMain)) {
-  Write-Error "distributionUrl is not valid, must end with *-bin.zip, but found $distributionUrl"
+  Write-Error "distributionUrl is not valid, must end with *-bin.zip, but found '$distributionUrl'"
 }
 
 # prepare tmp dir
@@ -117,8 +117,8 @@ $TMP_DOWNLOAD_DIR = New-Item -Itemtype Directory -Path "$TMP_DOWNLOAD_DIR_HOLDER
 $TMP_DOWNLOAD_DIR_HOLDER.Delete() | Out-Null
 trap {
   if ($TMP_DOWNLOAD_DIR.Exists) {
-    try { Remove-Item $TMP_DOWNLOAD_DIR -Recurse -Force | Out-Null }
-    catch { Write-Warning "Cannot remove $TMP_DOWNLOAD_DIR" }
+    try { Remove-Item "$TMP_DOWNLOAD_DIR" -Recurse -Force | Out-Null }
+    catch { Write-Warning "Cannot remove '$TMP_DOWNLOAD_DIR'" }
   }
 }
 
@@ -126,8 +126,8 @@ New-Item -Itemtype Directory -Path "$MAVEN_HOME_PARENT" -Force | Out-Null
 
 # Download and Install Apache Maven
 Write-Verbose "Couldn't find MAVEN_HOME, downloading and installing it ..."
-Write-Verbose "Downloading from: $distributionUrl"
-Write-Verbose "Downloading to: $TMP_DOWNLOAD_DIR/$distributionUrlName"
+Write-Verbose "Downloading from: '$distributionUrl'"
+Write-Verbose "Downloading to: '$TMP_DOWNLOAD_DIR/$distributionUrlName'"
 
 $webclient = New-Object System.Net.WebClient
 if ($env:MVNW_USERNAME -and $env:MVNW_PASSWORD) {
@@ -150,16 +150,16 @@ if ($distributionSha256Sum) {
 
 # unzip and move
 Expand-Archive "$TMP_DOWNLOAD_DIR/$distributionUrlName" -DestinationPath "$TMP_DOWNLOAD_DIR" | Out-Null
-Rename-Item -Path "$TMP_DOWNLOAD_DIR/$distributionUrlNameMain" -NewName $MAVEN_HOME_NAME | Out-Null
+Rename-Item -Path "$TMP_DOWNLOAD_DIR/$distributionUrlNameMain" -NewName "$MAVEN_HOME_NAME" | Out-Null
 try {
-  Move-Item -Path "$TMP_DOWNLOAD_DIR/$MAVEN_HOME_NAME" -Destination $MAVEN_HOME_PARENT | Out-Null
+  Move-Item -Path "$TMP_DOWNLOAD_DIR/$MAVEN_HOME_NAME" -Destination "$MAVEN_HOME_PARENT" | Out-Null
 } catch {
   if (! (Test-Path -Path "$MAVEN_HOME" -PathType Container)) {
     Write-Error "fail to move MAVEN_HOME"
   }
 } finally {
-  try { Remove-Item $TMP_DOWNLOAD_DIR -Recurse -Force | Out-Null }
-  catch { Write-Warning "Cannot remove $TMP_DOWNLOAD_DIR" }
+  try { Remove-Item "$TMP_DOWNLOAD_DIR" -Recurse -Force | Out-Null }
+  catch { Write-Warning "Cannot remove '$TMP_DOWNLOAD_DIR'" }
 }
 
 Write-Output "MVN_CMD=$MAVEN_HOME/bin/$MVN_CMD -s settings.xml"
