@@ -16,6 +16,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -64,10 +65,8 @@ public class UserService {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid token");
         }
 
-        Usuario user = repo.findByCorreo(username);
-        if (user == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
-        }
+        Optional<Usuario> optionalUser = repo.findByCorreo(username);
+        Usuario user = optionalUser.orElseThrow(() -> new IllegalArgumentException("User not found"));
 
         UsuarioDTO usuarioDTO = new UsuarioDTO(user.getId(), user.getNombres(), user.getApellidos(), user.getIdentificacion(), user.getTipoUsuario(), user.getCorreo(), user.getMunicipio());
 

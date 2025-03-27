@@ -1,5 +1,7 @@
 package com.bridgecare.auth.security;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -17,11 +19,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String correo) throws UsernameNotFoundException {
-        Usuario user = userRepo.findByCorreo(correo);
-        if (user == null) {
-            System.out.println("User Not Found");
-            throw new UsernameNotFoundException("user not found");
-        }
+        Optional<Usuario> optionalUser = userRepo.findByCorreo(correo);
+        Usuario user = optionalUser.orElseThrow(() -> new IllegalArgumentException("User not found"));
         
         return new UserPrincipal(user);
     }
