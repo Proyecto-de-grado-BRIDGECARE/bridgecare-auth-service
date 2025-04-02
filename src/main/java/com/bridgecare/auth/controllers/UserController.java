@@ -45,14 +45,14 @@ public class UserController {
     }
 
     @PostMapping("/register")
-public ResponseEntity<?> register(@RequestBody Usuario user) {
-    try {
-        Usuario saved = service.register(user);
-        return ResponseEntity.ok(service.toDto(saved));
-    } catch (RuntimeException e) {
-        return ResponseEntity.badRequest().body(e.getMessage());
+    public ResponseEntity<?> register(@RequestBody Usuario user) {
+        try {
+            Usuario saved = service.register(user);
+            return ResponseEntity.ok(service.toDto(saved));
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
-}
 
     @GetMapping("/users")
     public List<UsuarioDTO> getAllUsers() {
