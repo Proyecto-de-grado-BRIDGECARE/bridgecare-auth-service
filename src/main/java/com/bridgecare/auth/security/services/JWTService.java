@@ -31,7 +31,7 @@ public class JWTService {
                 .add(claims)
                 .subject(username)
                 .issuedAt(new Date(System.currentTimeMillis()))
-                // .expiration(new Date(System.currentTimeMillis() + 60 * 60 * 30)) // Non-expiring
+                .expiration(new Date(System.currentTimeMillis() + (1000L * 60 * 60 * 24 * 30))) // 30 days
                 .and()
                 .signWith(getKey())
                 .compact();

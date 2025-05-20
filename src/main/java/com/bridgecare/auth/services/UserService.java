@@ -57,6 +57,28 @@ public class UserService {
         }
     }
 
+    public ResponseEntity<?> getUser(String authHeader) {
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid or missing token");
+        }
+
+        String token = authHeader.substring(7); // Remove "Bearer " prefix
+        String username;
+
+        try {
+            username = jwtService.extractUserName(token);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid token");
+        }
+
+        Optional<Usuario> optionalUser = repo.findByCorreo(username);
+        Usuario user = optionalUser.orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+        UsuarioDTO usuarioDTO = new UsuarioDTO(user.getId(), user.getNombres(), user.getApellidos(), user.getIdentificacion(), user.getTipoUsuario(), user.getCorreo(), user.getMunicipio());
+
+        return ResponseEntity.ok(usuarioDTO);
+    }
+
     public UsuarioDTO toDto(Usuario user) {
         return new UsuarioDTO(
                 user.getId(),
