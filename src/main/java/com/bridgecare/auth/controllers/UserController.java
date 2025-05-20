@@ -44,33 +44,13 @@ public class UserController {
         return service.getUser(authHeader);
     }
 
-    @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody Usuario user) {
-        try {
-            Usuario saved = service.register(user);
-            return ResponseEntity.ok(service.toDto(saved));
-        } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-    }
-
-    @GetMapping("/users")
-    public List<UsuarioDTO> getAllUsers() {
-        return service.getAllUsers();
-    }
-
-    @GetMapping("/users/search")
-    public List<UsuarioDTO> searchUsers(@RequestParam String query) {
-        return service.searchUsers(query);
-    }
-
-    @PutMapping("/users/{id}")
-    public ResponseEntity<UsuarioDTO> updateUser(@PathVariable Long id, @RequestBody Usuario user) {
-        return service.updateUser(id, user);
-    }
-
-    @DeleteMapping("/users/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
-        return service.deleteUser(id);
-    }
+    // @PostMapping("/register")
+    // public ResponseEntity<?> register(@RequestBody Usuario user) {
+    //     try {
+    //         Usuario saved = service.register(user);
+    //         return ResponseEntity.ok(service.toDto(saved));
+    //     } catch (RuntimeException e) {
+    //         return ResponseEntity.badRequest().body(e.getMessage());
+    //     }
+    // }
 }
