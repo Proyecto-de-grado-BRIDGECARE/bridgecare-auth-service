@@ -131,14 +131,17 @@
 	</build>
 	<repositories>
 		<repository>
+			<id>central</id>
+			<url>https://repo.maven.apache.org/maven2</url>
+		</repository>
+		<repository>
 			<id>spring-snapshots</id>
-			<name>Spring Snapshots</name>
 			<url>https://repo.spring.io/snapshot</url>
 			<releases>
 				<enabled>false</enabled>
 			</releases>
 		</repository>
-				<repository>
+		<repository>
 			<id>github</id>
 			<url>https://maven.pkg.github.com/Proyecto-de-grado-BRIDGECARE/bridgecare-common</url>
 		</repository>
