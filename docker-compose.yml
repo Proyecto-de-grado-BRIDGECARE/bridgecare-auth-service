@@ -2,6 +2,7 @@ services:
   auth-service:
     container_name: auth-service
     image: auth-service
+    restart: unless-stopped
     build:
       context: .
       args:
